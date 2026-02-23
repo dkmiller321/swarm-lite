@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "mapbox-gl/dist/mapbox-gl.css";
+
+@theme {
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --color-surface: #111318;
+  --color-surface-raised: #1a1d24;
+  --color-surface-overlay: #22262e;
+  --color-border: #2a2f3a;
+  --color-text-primary: #e2e8f0;
+  --color-text-secondary: #94a3b8;
+  --color-accent-green: #10b981;
+  --color-accent-blue: #3b82f6;
+  --color-accent-yellow: #f59e0b;
+  --color-accent-red: #ef4444;
+  --color-accent-gray: #6b7280;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+}
+
+/* Mapbox overrides for dark theme */
+.mapboxgl-ctrl-attrib {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #6b7280 !important;
+  font-size: 10px !important;
+}
+.mapboxgl-ctrl-attrib a {
+  color: #6b7280 !important;
+}
+
+/* Pulsing ring for low-battery drones */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+.pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
+}
