@@ -120,42 +120,84 @@ The backend is a single Go binary with zero external dependencies beyond two lig
 **CI** (`.github/workflows/ci.yml`):
 - 5 parallel jobs on push to main: `go vet`, `go build`, TypeScript type-check, Vite production build, Docker image builds
 
-## Quick Start
+## Prerequisites
+
+- **Mapbox token** (free) — sign up at [mapbox.com](https://account.mapbox.com/access-tokens/) and copy your default public token (`pk.…`)
+
+**For Docker deployment:**
+- [Docker](https://docs.docker.com/get-docker/) with Docker Compose
+
+**For local development:**
+- [Go 1.22+](https://go.dev/dl/)
+- [Node.js 22+](https://nodejs.org/) with npm
+
+## Running with Docker (Recommended)
+
+The fastest way to get running — one command, no local toolchain needed.
 
 ```bash
-# 1. Set your Mapbox token
+# 1. Clone the repo
+git clone https://github.com/dkmiller321/swarm-lite.git
+cd swarm-lite
+
+# 2. Create a .env file with your Mapbox token
 echo "VITE_MAPBOX_TOKEN=pk.your_token_here" > .env
 
-# 2. Launch
+# 3. Build and launch both services
 docker compose up --build
 
-# 3. Open
+# 4. Open in your browser
 open http://localhost:3000
 ```
 
-Get a free Mapbox token at [mapbox.com](https://account.mapbox.com/access-tokens/).
+The frontend (nginx) serves on **:3000** and proxies `/api` and `/ws` requests to the Go backend on **:8080**. Both containers start together via `docker compose`.
 
-## Local Development
+To stop: `Ctrl+C` or `docker compose down`.
 
-**Backend** (requires Go 1.22+):
+## Running Locally (Development)
+
+Run the backend and frontend separately for hot-reload during development.
+
+### 1. Start the Backend
 
 ```bash
 cd backend
-go mod tidy
-go run .
-# Listening on :8080
+go mod tidy       # download dependencies (first time only)
+go run .          # starts the server on :8080
 ```
 
-**Frontend** (requires Node 22+):
+You should see:
+```
+swarm-lite backend listening on :8080
+```
+
+Leave this terminal running.
+
+### 2. Start the Frontend
+
+Open a second terminal:
 
 ```bash
 cd frontend
 cp .env.example .env
-# Edit .env with your Mapbox token
-npm install
-npm run dev
-# Listening on :5173
 ```
+
+Edit `frontend/.env` and paste your Mapbox token:
+```
+VITE_MAPBOX_TOKEN=pk.your_actual_token_here
+VITE_API_URL=http://localhost:8080
+VITE_WS_URL=ws://localhost:8080/ws
+```
+
+Then install and start:
+```bash
+npm install       # install dependencies (first time only)
+npm run dev       # starts Vite dev server on :5173
+```
+
+### 3. Open the Dashboard
+
+Go to **http://localhost:5173** in your browser. You should see 30 drone markers on a dark map of the Washington DC area, with the sidebar showing fleet status and a green "Connected" indicator in the bottom bar.
 
 ## Demo Flow
 
