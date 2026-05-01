@@ -8,5 +8,6 @@ RUN CGO_ENABLED=0 go build -o /swarm-lite .
 FROM alpine:3.19
 RUN apk add --no-cache ca-certificates
 COPY --from=build /swarm-lite /swarm-lite
+USER 1001
 EXPOSE 8080
 CMD ["/swarm-lite"]
