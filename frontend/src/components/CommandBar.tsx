@@ -1,6 +1,6 @@
 import { useStore } from '../store';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 function scatterDrones(drones: Map<string, unknown>) {
   const ids = Array.from(drones.keys());

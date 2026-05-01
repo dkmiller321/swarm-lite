@@ -5,7 +5,7 @@ import { STATUS_COLORS } from '../types';
 import type { Drone, CommandRequest } from '../types';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || '';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 function sendCommand(droneId: string, cmd: CommandRequest) {
   fetch(`${API_URL}/api/drones/${droneId}/command`, {

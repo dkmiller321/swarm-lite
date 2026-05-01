@@ -2,7 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useStore } from '../store';
 import type { TelemetryMessage } from '../types';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
+const WS_URL =
+  import.meta.env.VITE_WS_URL ||
+  `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
 const RECONNECT_DELAY = 2000;
 
 export function useWebSocket() {

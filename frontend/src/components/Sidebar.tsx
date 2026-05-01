@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import { STATUS_COLORS } from '../types';
 import type { Drone, DroneStatus } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 const STATUS_LABELS: { status: DroneStatus; label: string }[] = [
   { status: 'idle', label: 'IDLE' },
